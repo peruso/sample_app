@@ -1,0 +1,24 @@
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<%= will_paginate %>
+
+<ul class="users">
+  <%# @users.each do |user| %>
+  <!--10.3.5に詳細-->
+    <%#= render user %>
+    
+    <%= render @users %>
+    <!--=>renderを@users変数に対して直接実行10.3.5。@users をUserオブジェクトのリストであると推測します。さらに、ユーザーのコレクションを与えて呼び出すと、Railsは自動的にユーザーのコレクションを列挙し、-->
+    <!--それぞれのユーザーを_user.html.erbパーシャルで出力する。上は削除-->
+    
+    
+    <!--render呼び出しに置き換えたため_user.html.erbに下の内容は移す-->
+    <!--<li>-->
+      <%#= gravatar_for user, size: 50 %>
+      <%#= link_to user.name, user %>
+    <!--</li>-->
+  <%# end %>
+</ul>
+
+<%= will_paginate %>
