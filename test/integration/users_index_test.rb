@@ -27,6 +27,7 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
         assert_select 'a[href=?]', user_path(user), text: 'delete'
       end
     end
+    #削除されたらUserモデルから消されcountが1つ減るはず
     assert_difference 'User.count', -1 do
       delete user_path(@non_admin)
     end
