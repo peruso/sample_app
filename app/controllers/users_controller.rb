@@ -8,11 +8,14 @@ class UsersController < ApplicationController
   
   def index
     # @users = User.all
-    @users = User.paginate(page: params[:page])
+    # @users = User.paginate(page: params[:page])
+    #有効でないユーザーは表示させないようにしている
+    @users = User.where(activated: true).paginate(page: params[:page])
   end
   
   def show
     @user = User.find(params[:id])
+    redirect_to root_url and return unless @user.activated?
   
   end
   
@@ -20,10 +23,17 @@ class UsersController < ApplicationController
     # @user = User.new(params[:user]) # 実装は終わっていないことに注意!
     @user = User.new(user_params)
     if @user.save
-      log_in @user
-      flash[:success] = "Welcome to the Sample App!"
+      # log_in @user
+      # flash[:success] = "Welcome to the Sample App!"
       #保存の成功をここで扱う。
-      redirect_to user_url(@user)
+      # UserMailer.account_activation(@user).deliver_now
+      #user.rbのdef send_avtivation_emailで送信指示
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
+      
+      #変更前はユーザーのプロフィールページにリダイレクトしてた
+      # redirect_to user_url(@user)
     else
       render 'new'
       # render 'users/new'これでも良いみたい。。
