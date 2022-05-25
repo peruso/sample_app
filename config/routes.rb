@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  get 'users/new'
+  # get 'password_resets/new'
+  # get 'password_resets/edit'
+  # get 'users/new'
   #上を消したが問題はなさそう。下のsign upがあるから
   root 'static_pages#home'
   get  '/help', to: 'static_pages#help'
@@ -21,4 +23,5 @@ Rails.application.routes.draw do
   resources :users
   # account_activations resourceのeditへのルーティングのみを生成
   resources :account_activations, only: [:edit]
+  resources :password_resets,     only: [:new, :create, :edit, :update]
 end
