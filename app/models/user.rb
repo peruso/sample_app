@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :microposts, dependent: :destroy
+  # ユーザーが削除された時にdependentでユーザーに紐づいたマイクロポストも一緒に削除される
   attr_accessor :remember_token, :activation_token, :reset_token
   # before_save { email.downcase! }
   before_save :downcase_email
@@ -92,6 +94,10 @@ end
   # パスワード再設定の期限が切れている場合はtrueを返す
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+  
+  def feed
+    Micropost.where("user_id = ?", id)  
   end
   
   private

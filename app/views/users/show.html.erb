@@ -8,4 +8,16 @@
       </h1>
     </section>
   </aside>
+  <div class="col-md-8">
+    <!--any?データがあるなら-->
+    <% if @user.microposts.any? %>
+      <h3>Microposts (<%= @user.microposts.count %>)</h3>
+      <ol class="microposts">
+        <!--_micropost.html.erbパーシャルを使い@microposts変数ないのそれぞれのポストを出力している模様-->
+        <!--これを消すとmicroppostの表示がなくなる 13.2.1を参照-->
+        <%= render @microposts %>
+      </ol>
+      <%= will_paginate @microposts %>
+    <% end %>
+  </div>
 </div>
