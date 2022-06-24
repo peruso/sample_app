@@ -20,6 +20,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     get signup_path
     assert_select "title", full_title("Sign up")
     
+    
   end
   
   def setup
@@ -43,6 +44,14 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", logout_path
     assert_select "a[href=?]", about_path
     assert_select "a[href=?]", contact_path
+    # 特定のHTMLタグが存在する→ strong id="following"
+    assert_select 'strong#following'
+    # 描写されたページに@user.following.countを文字列にしたものが含まれる
+    assert_match @user.following.count.to_s, response.body
+    # 特定のHTMLタグが存在する→ strong id="followers"
+    assert_select 'strong#followers'
+    # 描写されたページに@user.followers.countを文字列にしたものが含まれる
+    assert_match @user.followers.count.to_s, response.body
 
   end
   
